@@ -1,6 +1,17 @@
-flask[async]
-gunicorn[gthread]
-transformers[torch]
-pandas
-python-dotenv
-git+https://github.com/amazon-science/chronos-forecasting.git
+# Flask for creating the web app
+Flask==2.3.2
+
+# Gunicorn for running the Flask app
+gunicorn==20.1.0
+
+# Pandas for data manipulation
+pandas==2.0.3
+
+# Statsmodels for ARIMA model
+statsmodels==0.14.0
+
+# Requests for making API calls to Coingecko
+requests==2.31.0
+
+# Python-dotenv for environment variable management
+python-dotenv==1.0.0
