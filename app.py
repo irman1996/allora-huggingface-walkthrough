@@ -2,14 +2,10 @@ from flask import Flask, Response
 import requests
 import json
 import pandas as pd
-import torch
-from chronos import ChronosPipeline
+from statsmodels.tsa.arima.model import ARIMA
 
 # create our Flask app
 app = Flask(__name__)
-
-# define the Hugging Face model we will use
-model_name = "amazon/chronos-t5-tiny"
 
 def get_coingecko_url(token):
     base_url = "https://api.coingecko.com/api/v3/coins/"
@@ -33,16 +29,6 @@ def get_coingecko_url(token):
 def get_inference(token):
     """Generate inference for given token."""
     try:
-        # use a pipeline as a high-level helper
-        pipeline = ChronosPipeline.from_pretrained(
-            model_name,
-            device_map="auto",
-            torch_dtype=torch.bfloat16,
-        )
-    except Exception as e:
-        return Response(json.dumps({"pipeline error": str(e)}), status=500, mimetype='application/json')
-
-    try:
         # get the data from Coingecko
         url = get_coingecko_url(token)
     except ValueError as e:
@@ -50,7 +36,7 @@ def get_inference(token):
 
     headers = {
         "accept": "application/json",
-        "x-cg-demo-api-key": "<Your Coingecko API key>" # replace with your API key
+        "x-cg-demo-api-key": "<Your Coingecko API key>"  # replace with your API key
     }
 
     response = requests.get(url, headers=headers)
@@ -59,21 +45,25 @@ def get_inference(token):
         df = pd.DataFrame(data["prices"])
         df.columns = ["date", "price"]
         df["date"] = pd.to_datetime(df["date"], unit='ms')
-        df = df[:-1] # removing today's price
+        df.set_index("date", inplace=True)
+        df = df[:-1]  # removing today's price
         print(df.tail(5))
     else:
-        return Response(json.dumps({"Failed to retrieve data from the API": str(response.text)}), 
-                        status=response.status_code, 
+        return Response(json.dumps({"Failed to retrieve data from the API": str(response.text)}),
+                        status=response.status_code,
                         mimetype='application/json')
 
-    # define the context and the prediction length
-    context = torch.tensor(df["price"])
-    prediction_length = 1
-
     try:
-        forecast = pipeline.predict(context, prediction_length)  # shape [num_series, num_samples, prediction_length]
-        print(forecast[0].mean().item()) # taking the mean of the forecasted prediction
-        return Response(str(forecast[0].mean().item()), status=200)
+        # Fit ARIMA model
+        model = ARIMA(df['price'], order=(5, 1, 0))  # ARIMA model order, can be tuned
+        model_fit = model.fit()
+
+        # Forecast the next value
+        forecast = model_fit.forecast(steps=1)
+        forecast_value = forecast[0]
+        print(forecast_value)
+        
+        return Response(str(forecast_value), status=200)
     except Exception as e:
         return Response(json.dumps({"error": str(e)}), status=500, mimetype='application/json')
 
