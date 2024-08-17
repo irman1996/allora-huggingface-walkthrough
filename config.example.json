@@ -13,85 +13,102 @@
     "worker": [
         {
             "topicId": 1,
-            "inferenceEntrypointName": "api-worker-reputer",
+            "inferenceEntrypointName": "api-worker-arima",
             "loopSeconds": 1,
             "parameters": {
                 "InferenceEndpoint": "http://inference:8000/inference/{Token}",
-                "Token": "ETH"
+                "Token": "ETH",
+                "ARIMA_order": [5, 1, 0], 
+                "forecast_steps": 10
             }
         },
         {
             "topicId": 2,
-            "inferenceEntrypointName": "api-worker-reputer",
+            "inferenceEntrypointName": "api-worker-arima",
             "loopSeconds": 3,
             "parameters": {
                 "InferenceEndpoint": "http://inference:8000/inference/{Token}",
-                "Token": "ETH"
+                "Token": "ETH",
+                "ARIMA_order": [5, 1, 0],
+                "forecast_steps": 10
             }
         },
         {
             "topicId": 3,
-            "inferenceEntrypointName": "api-worker-reputer",
+            "inferenceEntrypointName": "api-worker-arima",
             "loopSeconds": 5,
             "parameters": {
                 "InferenceEndpoint": "http://inference:8000/inference/{Token}",
-                "Token": "BTC"
+                "Token": "BTC",
+                "ARIMA_order": [5, 1, 0],
+                "forecast_steps": 10
             }
         },
         {
             "topicId": 4,
-            "inferenceEntrypointName": "api-worker-reputer",
+            "inferenceEntrypointName": "api-worker-arima",
             "loopSeconds": 2,
             "parameters": {
                 "InferenceEndpoint": "http://inference:8000/inference/{Token}",
-                "Token": "BTC"
+                "Token": "BTC",
+                "ARIMA_order": [5, 1, 0],
+                "forecast_steps": 10
             }
         },
         {
             "topicId": 5,
-            "inferenceEntrypointName": "api-worker-reputer",
+            "inferenceEntrypointName": "api-worker-arima",
             "loopSeconds": 4,
             "parameters": {
                 "InferenceEndpoint": "http://inference:8000/inference/{Token}",
-                "Token": "SOL"
+                "Token": "SOL",
+                "ARIMA_order": [5, 1, 0],
+                "forecast_steps": 10
             }
         },
         {
             "topicId": 6,
-            "inferenceEntrypointName": "api-worker-reputer",
+            "inferenceEntrypointName": "api-worker-arima",
             "loopSeconds": 5,
             "parameters": {
                 "InferenceEndpoint": "http://inference:8000/inference/{Token}",
-                "Token": "SOL"
+                "Token": "SOL",
+                "ARIMA_order": [5, 1, 0],
+                "forecast_steps": 10
             }
         },
         {
             "topicId": 7,
-            "inferenceEntrypointName": "api-worker-reputer",
+            "inferenceEntrypointName": "api-worker-arima",
             "loopSeconds": 2,
             "parameters": {
                 "InferenceEndpoint": "http://inference:8000/inference/{Token}",
-                "Token": "ETH"
+                "Token": "ETH",
+                "ARIMA_order": [5, 1, 0],
+                "forecast_steps": 10
             }
         },
         {
             "topicId": 8,
-            "inferenceEntrypointName": "api-worker-reputer",
+            "inferenceEntrypointName": "api-worker-arima",
             "loopSeconds": 3,
             "parameters": {
                 "InferenceEndpoint": "http://inference:8000/inference/{Token}",
-                "Token": "BNB"
+                "Token": "BNB",
+                "ARIMA_order": [5, 1, 0],
+                "forecast_steps": 10
             }
         },
         {
             "topicId": 9,
-            "inferenceEntrypointName": "api-worker-reputer",
+            "inferenceEntrypointName": "api-worker-arima",
             "loopSeconds": 5,
             "parameters": {
                 "InferenceEndpoint": "http://inference:8000/inference/{Token}",
-                "Token": "ARB"
+                "Token": "ARB",
+                "ARIMA_order": [5, 1, 0],
+                "forecast_steps": 10
             }
         }
-        
     ]
 }
