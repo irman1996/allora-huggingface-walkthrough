@@ -1,16 +1,24 @@
-FROM amd64/python:3.9-buster
- 
+# Menggunakan base image Python
+FROM python:3.9-slim
+
+# Set working directory
 WORKDIR /app
- 
-COPY . /app
- 
-# Install any needed packages specified in requirements.txt
-RUN pip install --upgrade pip \
-    && pip install -r requirements.txt
- 
-EXPOSE 8000
- 
-ENV NAME sample
- 
-# Run gunicorn when the container launches and bind port 8000 from app.py
-CMD ["gunicorn", "-b", ":8000", "app:app"]
+
+# Copy requirements.txt
+COPY requirements.txt requirements.txt
+
+# Install dependencies
+RUN pip install --no-cache-dir --upgrade pip \
+    && pip install --no-cache-dir -r requirements.txt
+
+# Jika Anda tidak memiliki file requirements.txt, tambahkan library secara langsung
+RUN pip install --no-cache-dir statsmodels
+
+# Copy seluruh kode ke container
+COPY . .
+
+# Expose port yang diperlukan, jika Anda menjalankan aplikasi web
+EXPOSE 5000
+
+# Jalankan aplikasi
+CMD ["python", "app.py"]
